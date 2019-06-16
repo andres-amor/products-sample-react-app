@@ -1,0 +1,19 @@
+.product {
+    border: 1px solid grey;
+    padding: 20px;
+    display: flex;
+}
+
+.product h3 {
+    color: skyblue;
+    flex: 1;
+}
+
+.product .price {
+    color: white;
+    flex: 1;
+}
+
+.product .thumbnail {
+    flex: 0 150px;
+}
