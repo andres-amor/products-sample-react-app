@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import ListSection from './Sections/ListSection';
 import HomeSection from './Sections/HomeSection';
+import AppContext from './AppContext';
 
 class App extends React.Component {
   constructor(props) {
@@ -70,11 +71,7 @@ class App extends React.Component {
     switch (this.state.currentSection) {
       case 'list':
         return (
-          <ListSection
-            products={this.state.products}
-            clearProductList={this.clearProductList}
-            addPotato={this.addPotato}
-          />
+          <ListSection />
         );
       case 'home':
       default:
@@ -92,9 +89,15 @@ class App extends React.Component {
           {this.state.showFavoritesButton ? <button>Favorites</button> : ''}
         </header>
 
-        <main>
-          {this.renderCurrentSection()}
-        </main>
+        <AppContext.Provider value={{
+          products: this.state.products,
+          addPotato: this.addPotato,
+          clearProductList: this.clearProductList
+        }}>
+          <main>
+            {this.renderCurrentSection()}
+          </main>
+        </AppContext.Provider>
 
         <footer>
           This is the footer
