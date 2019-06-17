@@ -48,6 +48,25 @@ class App extends React.Component {
     }
   }
 
+  getNextProductId() {
+    var productWithHighestId = this.state.products.sort((a, b) => b.id - a.id)[0];
+    if (productWithHighestId === undefined) {
+      return 1; // List is empty, so use 1 as first product id.
+    } else {
+      return productWithHighestId.id + 1; // List is not empty, increase one to the highest id for the next product.
+    }
+  }
+
+  addNewProduct = (newProduct) => {
+    this.setState({
+      products: [...this.state.products, {
+        id: this.getNextProductId(),
+        name: newProduct.name,
+        price: newProduct.price
+      }]
+    });
+  }
+
   goToHome = () => {
     this.setState({
       currentSection: 'home'
@@ -74,6 +93,7 @@ class App extends React.Component {
             products={this.state.products}
             clearProductList={this.clearProductList}
             addPotato={this.addPotato}
+            addNewProduct={this.addNewProduct}
           />
         );
       case 'home':
