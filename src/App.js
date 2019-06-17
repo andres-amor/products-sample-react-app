@@ -3,6 +3,7 @@ import './App.css';
 import ListSection from './Sections/ListSection';
 import HomeSection from './Sections/HomeSection';
 import AppContext from './AppContext';
+import Clock from './Clock';
 
 class App extends React.Component {
   constructor(props) {
@@ -41,12 +42,31 @@ class App extends React.Component {
       // Adding a potato consist on setting a new state with the copy of the current products array + the new potato.
       this.setState({
         products: [...this.state.products, {
-          id: 4,
+          id: this.getNextProductId(),
           name: 'Potato',
           price: 3
         }]
-      })
+      });
     }
+  }
+
+  getNextProductId() {
+    var productWithHighestId = this.state.products.sort((a, b) => b.id - a.id)[0];
+    if (productWithHighestId === undefined) {
+      return 1; // List is empty, so use 1 as first product id.
+    } else {
+      return productWithHighestId.id + 1; // List is not empty, increase one to the highest id for the next product.
+    }
+  }
+
+  addNewProduct = (newProduct) => {
+    this.setState({
+      products: [...this.state.products, {
+        id: this.getNextProductId(),
+        name: newProduct.name,
+        price: newProduct.price
+      }]
+    });
   }
 
   goToHome = () => {
@@ -92,7 +112,8 @@ class App extends React.Component {
         <AppContext.Provider value={{
           products: this.state.products,
           addPotato: this.addPotato,
-          clearProductList: this.clearProductList
+          clearProductList: this.clearProductList,
+          addNewProduct: this.addNewProduct
         }}>
           <main>
             {this.renderCurrentSection()}
@@ -101,6 +122,8 @@ class App extends React.Component {
 
         <footer>
           This is the footer
+          <br />
+          <Clock name="John" />
         </footer>
       </div>
     );
