@@ -4,7 +4,7 @@ import './NewProductForm.css';
 class NewProductForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = { 
       name: '',
       price: 0
     };

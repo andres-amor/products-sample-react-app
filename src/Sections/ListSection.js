@@ -1,20 +1,20 @@
 import React from 'react';
 import ProductList from '../Product/ProductList';
+import AppContext from '../AppContext';
 import NewProductForm from '../Product/NewProductForm';
 
 class ListSection extends React.Component {
+  static contextType = AppContext;
   render() {
     return (
       <div>
         <h1>List</h1>
 
-        <ProductList products={this.props.products} />
-        <NewProductForm addNewProduct={this.props.addNewProduct} />
+        <ProductList />
+        <NewProductForm addNewProduct={this.context.addNewProduct} />
 
         <br />
-        <button onClick={this.props.addPotato}>Add Potato</button>
-        <br />
-        <button onClick={this.props.clearProductList}>Delete all products</button>
+        <button onClick={this.context.clearProductList}>Delete all products</button>
       </div>
     );
   }

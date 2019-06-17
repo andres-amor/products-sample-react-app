@@ -2,6 +2,8 @@ import React from 'react';
 import './App.css';
 import ListSection from './Sections/ListSection';
 import HomeSection from './Sections/HomeSection';
+import AppContext from './AppContext';
+import Clock from './Clock';
 
 class App extends React.Component {
   constructor(props) {
@@ -40,11 +42,11 @@ class App extends React.Component {
       // Adding a potato consist on setting a new state with the copy of the current products array + the new potato.
       this.setState({
         products: [...this.state.products, {
-          id: 4,
+          id: this.getNextProductId(),
           name: 'Potato',
           price: 3
         }]
-      })
+      });
     }
   }
 
@@ -89,12 +91,7 @@ class App extends React.Component {
     switch (this.state.currentSection) {
       case 'list':
         return (
-          <ListSection
-            products={this.state.products}
-            clearProductList={this.clearProductList}
-            addPotato={this.addPotato}
-            addNewProduct={this.addNewProduct}
-          />
+          <ListSection />
         );
       case 'home':
       default:
@@ -112,12 +109,21 @@ class App extends React.Component {
           {this.state.showFavoritesButton ? <button>Favorites</button> : ''}
         </header>
 
-        <main>
-          {this.renderCurrentSection()}
-        </main>
+        <AppContext.Provider value={{
+          products: this.state.products,
+          addPotato: this.addPotato,
+          clearProductList: this.clearProductList,
+          addNewProduct: this.addNewProduct
+        }}>
+          <main>
+            {this.renderCurrentSection()}
+          </main>
+        </AppContext.Provider>
 
         <footer>
           This is the footer
+          <br />
+          <Clock name="John" />
         </footer>
       </div>
     );
